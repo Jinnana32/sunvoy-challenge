@@ -1,8 +1,12 @@
-import config from './config';
+import dotenv from 'dotenv';
+import { getConfig } from './config';
 import { login } from './services/sunvoy.service';
 
+dotenv.config();
+const config = getConfig();
+
 const main = async () => {
-  await login(config.password, config.password);
+  await login(config.username, config.password);
 };
 
 main().catch((err) => {
