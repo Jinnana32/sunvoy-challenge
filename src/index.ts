@@ -1,5 +1,8 @@
+import config from './config';
+import { login } from './services/sunvoy.service';
+
 const main = async () => {
-  console.log('testing');
+  await login(config.password, config.password);
 };
 
 main().catch((err) => {
