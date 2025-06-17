@@ -1,7 +1,8 @@
-import sunvoyClient, { LOGIN_ENDPOINT } from '../libs/sunvoy.client';
+import { AxiosInstance } from 'axios';
+import { LOGIN_ENDPOINT } from '../libs/sunvoy.client';
 
-export const extractNonce = async (): Promise<string> => {
-  const loginPage = await sunvoyClient.get(LOGIN_ENDPOINT);
+export const extractNonce = async (client: AxiosInstance): Promise<string> => {
+  const loginPage = await client.get(LOGIN_ENDPOINT);
   const nonceMatch = loginPage.data.match(/name="nonce" value="([^"]+)"/);
   if (!nonceMatch) {
     throw new Error('Could not find nonce in login page');
@@ -9,9 +10,13 @@ export const extractNonce = async (): Promise<string> => {
   return nonceMatch[1];
 };
 
-export const login = async (username: string, password: string) => {
-  const nonce = await extractNonce();
-  const res = await sunvoyClient.post(
+export const login = async (
+  client: AxiosInstance,
+  username: string,
+  password: string
+) => {
+  const nonce = await extractNonce(client);
+  const res = await client.post(
     LOGIN_ENDPOINT,
     { username, password, nonce },
     {
