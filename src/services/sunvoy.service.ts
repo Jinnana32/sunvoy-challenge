@@ -1,5 +1,6 @@
 import { AxiosInstance } from 'axios';
-import { LOGIN_ENDPOINT } from '../libs/sunvoy.client';
+import { LOGIN_ENDPOINT, TOKENS_URL } from '../libs/sunvoy.client';
+import * as cheerio from 'cheerio';
 
 export const extractNonce = async (client: AxiosInstance): Promise<string> => {
   const loginPage = await client.get(LOGIN_ENDPOINT);
@@ -33,4 +34,18 @@ export const login = async (
   }
 
   console.log('Logged in successfully');
+};
+
+export const getTokenData = async (client: AxiosInstance) => {
+  const res = await client.get(TOKENS_URL);
+  const $ = cheerio.load(res.data);
+  const tokenData = {
+    access_token: String($('#access_token').val()),
+    openId: String($('#openId').val()),
+    userId: String($('#userId').val()),
+    apiuser: String($('#apiuser').val()),
+    operateId: String($('#operateId').val()),
+    language: String($('#language').val()),
+  };
+  return tokenData;
 };

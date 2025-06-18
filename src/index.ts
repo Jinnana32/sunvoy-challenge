@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import { getConfig } from './config';
-import { login } from './services/sunvoy.service';
+import { getTokenData, login } from './services/sunvoy.service';
 import { getClient } from './libs/sunvoy.client';
 import { loadCookieJar, saveCookieJar } from './libs/cookies';
 import { getCurrentUser, getUserList } from './services/users.service';
@@ -17,8 +17,13 @@ const main = async () => {
   await login(client, config.username, config.password);
   await saveCookieJar(jar);
 
+  // fetch list of users
   const users = await getUserList(client);
-  const currentUser = await getCurrentUser(apiClient);
+
+  // fetch current user
+  const tokenData = await getTokenData(client);
+  const currentUser = await getCurrentUser(apiClient, tokenData);
+
   await saveToJsonFile([...users, currentUser]);
 };
 
