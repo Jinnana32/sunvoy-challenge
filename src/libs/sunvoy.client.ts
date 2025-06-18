@@ -5,6 +5,7 @@ import { CookieJar } from 'tough-cookie';
 
 export const BASE_URL = 'https://challenge.sunvoy.com';
 export const LOGIN_ENDPOINT = '/login';
+export const USER_LIST_ENDPOINT = '/api/users';
 
 let client: AxiosInstance;
 
