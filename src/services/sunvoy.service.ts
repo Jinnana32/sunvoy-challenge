@@ -11,6 +11,16 @@ export const extractNonce = async (client: AxiosInstance): Promise<string> => {
   return nonceMatch[1];
 };
 
+/**
+ * Logs in to the server using the provided username and password.
+ *
+ * Fetches a nonce token required for authentication and submits the login request.
+ *
+ * @param client - An Axios instance
+ * @param username - The username credential.
+ * @param password - The password credential.
+ * @throws If the login response status is not 200.
+ */
 export const login = async (
   client: AxiosInstance,
   username: string,
@@ -36,6 +46,12 @@ export const login = async (
   console.log('Logged in successfully');
 };
 
+/**
+ * Extracts token-related data from the HTML response of the tokens endpoint.
+ *
+ * @param client - An Axios instance
+ * @returns A promise that resolves to an object containing authentication tokens
+ */
 export const getTokenData = async (client: AxiosInstance) => {
   const res = await client.get(TOKENS_URL);
   const $ = cheerio.load(res.data);
