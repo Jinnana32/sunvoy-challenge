@@ -1,5 +1,4 @@
 import axios, { AxiosInstance } from 'axios';
-import { loadCookieJar } from './cookies';
 import { HttpsCookieAgent } from 'http-cookie-agent/http';
 import { CookieJar } from 'tough-cookie';
 
