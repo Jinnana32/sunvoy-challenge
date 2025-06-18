@@ -28,6 +28,7 @@ npm run start
 ```
 
 ## What It Does
+Loom video: https://www.loom.com/share/471d316229db482385d5eb7f0e7069fd?sid=730e1e9b-f452-4c4b-927d-59a4b7436924
 - Loads existing cookie session (if available).
 - (checker) Attempts to fetch a user list:
   - If session is valid, it proceeds.
