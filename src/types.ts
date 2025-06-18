@@ -13,3 +13,7 @@ export type TokenData = {
   operateId: string;
   language: string;
 };
+
+export type SignedRequest = {
+  fullPayload: string;
+};

@@ -9,9 +9,9 @@ export const getUserList = (client: AxiosInstance): Promise<User[]> => {
 
 export const getCurrentUser = async (
   client: AxiosInstance,
-  tokenData: TokenData
+  payload: string
 ): Promise<User> => {
-  const response = await client.post(SETTINGS_URL, tokenData, {
+  const response = await client.post(SETTINGS_URL, payload, {
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },

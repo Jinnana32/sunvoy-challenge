@@ -6,6 +6,7 @@ import { loadCookieJar, saveCookieJar } from './libs/cookies';
 import { getCurrentUser, getUserList } from './services/users.service';
 import { saveToJsonFile } from './libs/file';
 import { getApiClient } from './libs/api.client';
+import { createSignedRequest } from './libs/signer';
 
 dotenv.config();
 const config = getConfig();
@@ -22,7 +23,8 @@ const main = async () => {
 
   // fetch current user
   const tokenData = await getTokenData(client);
-  const currentUser = await getCurrentUser(apiClient, tokenData);
+  const signed = createSignedRequest(tokenData);
+  const currentUser = await getCurrentUser(apiClient, signed.fullPayload);
 
   await saveToJsonFile([...users, currentUser]);
 };
