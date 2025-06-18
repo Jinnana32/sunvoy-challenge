@@ -15,8 +15,20 @@ const main = async () => {
   const jar = await loadCookieJar();
   const client = await getClient(jar);
   const apiClient = await getApiClient(jar);
-  await login(client, config.username, config.password);
-  await saveCookieJar(jar);
+
+  try {
+    await getUserList(client);
+    console.log('Already logged in. Using existing session');
+  } catch (err: any) {
+    // Non-401 errors should still throw
+    if (err.response.status !== 401) {
+      throw err;
+    }
+    // Handle case where the credentials expired or being invalidated
+    console.log('Logging in. Saving credentials for future use');
+    await login(client, config.username, config.password);
+    await saveCookieJar(jar);
+  }
 
   // fetch list of users
   const users = await getUserList(client);
@@ -26,6 +38,7 @@ const main = async () => {
   const signed = createSignedRequest(tokenData);
   const currentUser = await getCurrentUser(apiClient, signed.fullPayload);
 
+  // store users to file
   await saveToJsonFile([...users, currentUser]);
 };
 
